@@ -254,11 +254,14 @@ int DrawSync(int mode)
 		drawsync_callback();
 	}
 
-	DrawAggregatedSplits();
-	Emulator_EndScene();
+	if (g_splitIndex > 0) // don't do flips if nothing to draw. Prevents screen from flicker but this brokes palettes
+	{
+		DrawAggregatedSplits();
+		Emulator_EndScene();
 
-	if (Emulator_BeginScene())
-		ResetPolyState();
+		if (Emulator_BeginScene())
+			ResetPolyState();
+	}
 
 	return 0;
 }
